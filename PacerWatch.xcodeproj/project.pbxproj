@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A2936CF52F8FAFD300C5D73D /* PacerWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = A2936CF42F8FAFD300C5D73D /* PacerWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		A2936D0A2F8FB09100C5D73D /* WatchConnectivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A2936D092F8FB09100C5D73D /* WatchConnectivity.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +38,7 @@
 /* Begin PBXFileReference section */
 		A2936CEE2F8FAFD300C5D73D /* PacerWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PacerWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2936CF42F8FAFD300C5D73D /* PacerWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "PacerWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2936D092F8FB09100C5D73D /* WatchConnectivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WatchConnectivity.framework; path = Platforms/WatchOS.platform/Developer/SDKs/WatchOS26.4.sdk/System/Library/Frameworks/WatchConnectivity.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -52,6 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2936D0A2F8FB09100C5D73D /* WatchConnectivity.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,6 +65,7 @@
 			isa = PBXGroup;
 			children = (
 				A2936CF82F8FAFD300C5D73D /* PacerWatch Watch App */,
+				A2936D082F8FB09100C5D73D /* Frameworks */,
 				A2936CEF2F8FAFD300C5D73D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -73,6 +77,14 @@
 				A2936CF42F8FAFD300C5D73D /* PacerWatch Watch App.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A2936D082F8FB09100C5D73D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A2936D092F8FB09100C5D73D /* WatchConnectivity.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
