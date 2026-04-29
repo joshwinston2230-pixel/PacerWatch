@@ -134,7 +134,7 @@ class RaceViewModel: NSObject, ObservableObject, WCSessionDelegate {
     // WCSession delegate
     func loadTestPlan() {
         let testJSON = """
-        {"splits":[{"km":1,"pacePerKm":"5:41","cumulativeTime":"0:05:41","effortLabel":"Moderate","heartRateZone":3,"targetHR":161},{"km":2,"pacePerKm":"5:41","cumulativeTime":"0:11:22","effortLabel":"Moderate","heartRateZone":3,"targetHR":161},{"km":3,"pacePerKm":"5:41","cumulativeTime":"0:17:03","effortLabel":"Moderate","heartRateZone":3,"targetHR":161},{"km":4,"pacePerKm":"5:41","cumulativeTime":"0:22:44","effortLabel":"Moderate","heartRateZone":3,"targetHR":161},{"km":5,"pacePerKm":"5:41","cumulativeTime":"0:28:25","effortLabel":"Moderate","heartRateZone":3,"targetHR":161},{"km":6,"pacePerKm":"5:45","cumulativeTime":"0:34:10","effortLabel":"Comfortably Hard","heartRateZone":4,"targetHR":165},{"km":7,"pacePerKm":"5:41","cumulativeTime":"0:39:51","effortLabel":"Moderate","heartRateZone":3,"targetHR":161},{"km":8,"pacePerKm":"5:41","cumulativeTime":"0:45:32","effortLabel":"Moderate","heartRateZone":3,"targetHR":161},{"km":9,"pacePerKm":"5:41","cumulativeTime":"0:51:13","effortLabel":"Moderate","heartRateZone":3,"targetHR":161},{"km":10,"pacePerKm":"5:45","cumulativeTime":"0:56:58","effortLabel":"Comfortably Hard","heartRateZone":4,"targetHR":165},{"km":11,"pacePerKm":"5:41","cumulativeTime":"1:02:39","effortLabel":"Moderate","heartRateZone":3,"targetHR":161},{"km":12,"pacePerKm":"5:41","cumulativeTime":"1:08:20","effortLabel":"Moderate","heartRateZone":3,"targetHR":161},{"km":13,"pacePerKm":"5:41","cumulativeTime":"1:14:01","effortLabel":"Moderate","heartRateZone":3,"targetHR":161},{"km":14,"pacePerKm":"5:41","cumulativeTime":"1:19:42","effortLabel":"Moderate","heartRateZone":3,"targetHR":161},{"km":15,"pacePerKm":"5:41","cumulativeTime":"1:25:23","effortLabel":"Moderate","heartRateZone":3,"targetHR":161},{"km":16,"pacePerKm":"5:50","cumulativeTime":"1:31:13","effortLabel":"Comfortably Hard","heartRateZone":4,"targetHR":165},{"km":17,"pacePerKm":"5:50","cumulativeTime":"1:37:03","effortLabel":"Comfortably Hard","heartRateZone":4,"targetHR":165},{"km":18,"pacePerKm":"5:38","cumulativeTime":"1:42:41","effortLabel":"Moderate","heartRateZone":3,"targetHR":161},{"km":19,"pacePerKm":"5:38","cumulativeTime":"1:48:19","effortLabel":"Moderate","heartRateZone":3,"targetHR":161},{"km":20,"pacePerKm":"5:41","cumulativeTime":"1:54:00","effortLabel":"Moderate","heartRateZone":3,"targetHR":161},{"km":21,"pacePerKm":"5:45","cumulativeTime":"1:59:45","effortLabel":"Comfortably Hard","heartRateZone":4,"targetHR":165},{"km":22,"pacePerKm":"5:41","cumulativeTime":"2:02:22","effortLabel":"Comfortably Hard","heartRateZone":4,"targetHR":165}],"fuelSchedule":[{"elapsedTimeMin":35,"action":"Take gel","product":"SiS Beta Fuel","quantity":"1 gel","warning":null},{"elapsedTimeMin":65,"action":"Take gel","product":"SiS Beta Fuel","quantity":"1 gel","warning":null},{"elapsedTimeMin":95,"action":"Take caffeine gel","product":"GU Roctane Caffeine","quantity":"1 gel","warning":"Caffeine boost for final 5km"}],"summary":{"estimatedFinishTime":"2:02:22","averagePace":"5:41","recommendedStrategy":"Even effort"}}
+        {"splits":[{"km":1,"pacePerKm":"5:30","cumulativeTime":"0:01:00","effortLabel":"Easy","heartRateZone":2,"targetHR":145},{"km":2,"pacePerKm":"5:00","cumulativeTime":"0:02:00","effortLabel":"Moderate","heartRateZone":3,"targetHR":158},{"km":3,"pacePerKm":"4:45","cumulativeTime":"0:03:00","effortLabel":"Hard","heartRateZone":4,"targetHR":168},{"km":4,"pacePerKm":"4:45","cumulativeTime":"0:04:00","effortLabel":"Hard","heartRateZone":4,"targetHR":170},{"km":5,"pacePerKm":"5:30","cumulativeTime":"0:05:00","effortLabel":"Easy","heartRateZone":2,"targetHR":145}],"fuelSchedule":[{"elapsedTimeMin":1,"action":"Take gel","product":"SiS Beta Fuel","quantity":"1 gel","warning":null},{"elapsedTimeMin":2,"action":"Drink water","product":"Aid station","quantity":"200ml","warning":null},{"elapsedTimeMin":3,"action":"Decision point","product":"How are you feeling?","quantity":"Push or hold pace","warning":"Halfway through — make a call"},{"elapsedTimeMin":4,"action":"Take caffeine gel","product":"GU Roctane Caffeine","quantity":"1 gel","warning":"Caffeine boost for final km"},{"elapsedTimeMin":5,"action":"Drink water","product":"Aid station","quantity":"200ml","warning":null}],"summary":{"estimatedFinishTime":"0:05:00","averagePace":"5:00","recommendedStrategy":"TEST PLAN"}}
         """
         if let data = testJSON.data(using: .utf8),
            let decoded = try? JSONDecoder().decode(RacePlan.self, from: data) {
@@ -189,6 +189,8 @@ struct ContentView: View {
 }
 
 struct NoPlanView: View {
+    @EnvironmentObject var vm: RaceViewModel
+
     var body: some View {
         VStack(spacing: 8) {
             Image(systemName: "clock.badge.exclamationmark")
@@ -201,6 +203,19 @@ struct NoPlanView: View {
                 .font(.caption2)
                 .foregroundColor(.gray)
                 .multilineTextAlignment(.center)
+
+            // Dev-only test plan loader — set SHOW_DEV_TOOLS=false before App Store
+            Button(action: { vm.loadTestPlan() }) {
+                Text("🧪 Load Test Plan")
+                    .font(.caption2)
+                    .foregroundColor(.black)
+                    .padding(.horizontal, 10)
+                    .padding(.vertical, 6)
+                    .background(Color.green)
+                    .cornerRadius(6)
+            }
+            .buttonStyle(.plain)
+            .padding(.top, 8)
         }
         .padding()
     }
